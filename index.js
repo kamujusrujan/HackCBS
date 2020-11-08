@@ -1,18 +1,18 @@
 panel = document.querySelector('.App-header');
 
 async function createModel() {
-  let URL = 'https://teachablemachine.withgoogle.com/models/haIDdEEtd/';
-  const checkpointURL = URL + 'model.json'; // model topology
-  const metadataURL = URL + 'metadata.json'; // model metadata
+  let URL = 'https://teachablemachine.withgoogle.com/models/hkBUhoOZw/';
+
+  const checkpointURL = URL + 'model.json';
+  const metadataURL = URL + 'metadata.json';
   let recognizer = speechCommands.create(
-    'BROWSER_FFT', // fourier transform type, not useful to change
-    undefined, // speech commands vocabulary feature, not useful for your models
+    'BROWSER_FFT',
+    undefined,
     checkpointURL,
     metadataURL
   );
-  await recognizer.ensureModelLoaded().then();
+  await recognizer.ensureModelLoaded();
   return recognizer;
-  // predictWord();
 }
 
 async function predictWord() {
@@ -23,29 +23,36 @@ async function predictWord() {
     ({ scores }) => {
       scores = Array.from(scores).map((s, i) => ({ score: s, word: words[i] }));
       scores.sort((s1, s2) => s2.score - s1.score);
-      document.querySelector('#console').textContent = scores[0].word;
       changeBackground(scores[0].word);
     },
-    { probabilityThreshold: 0.6 }
+    {
+      probabilityThreshold: 0.6,
+      overlapFactor: 0.9,
+    }
   );
 }
 
 function changeBackground(output) {
   if (output == 'Background Noise') {
     panel.style.backgroundColor = 'grey';
+    document.querySelector('#console').textContent =
+      'Quarantine zone , Number of people : 0';
     return;
   }
   output = parseInt(output);
   if (output < 4) {
+    document.querySelector('#console').textContent =
+      'Safe Zone , Number of people : ' + output;
     panel.style.backgroundColor = 'green';
   } else if (output < 7) {
+    document.querySelector('#console').textContent =
+      'Moderate Level Safety, Number of people : ' + output;
     panel.style.backgroundColor = 'orange';
   } else {
+    document.querySelector('#console').textContent =
+      'Danger Zone , Number of  people : ' + output;
     panel.style.backgroundColor = 'red';
   }
 }
 
-function init() {
-  predictWord();
-}
-init();
+predictWord();
