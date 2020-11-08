@@ -35,22 +35,21 @@ async function predictWord() {
 function changeBackground(output) {
   if (output == 'Background Noise') {
     panel.style.backgroundColor = 'grey';
-    document.querySelector('#console').textContent =
-      'Quarantine zone , Number of people : 0';
+    document.querySelector('#console').textContent = 'No People Zone';
     return;
   }
   output = parseInt(output);
   if (output < 4) {
     document.querySelector('#console').textContent =
-      'Safe Zone , Number of people : ' + output;
+      'Safe Zone , Number of people : less than 3 ';
     panel.style.backgroundColor = 'green';
   } else if (output < 7) {
     document.querySelector('#console').textContent =
-      'Moderate Level Safety, Number of people : ' + output;
+      'Moderate Zone , Number of people : around 4 to 7';
     panel.style.backgroundColor = 'orange';
   } else {
     document.querySelector('#console').textContent =
-      'Danger Zone , Number of  people : ' + output;
+      'Danger Zone , Number of  people more than 7 ';
     panel.style.backgroundColor = 'red';
   }
 }
