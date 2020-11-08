@@ -1,7 +1,7 @@
 panel = document.querySelector('.App-header');
 
 async function createModel() {
-  let URL = 'https://teachablemachine.withgoogle.com/models/hkBUhoOZw/';
+  let URL = 'https://teachablemachine.withgoogle.com/models/haIDdEEtd/';
 
   const checkpointURL = URL + 'model.json';
   const metadataURL = URL + 'metadata.json';
